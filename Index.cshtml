@@ -1,0 +1,43 @@
+﻿@model EdgeEnergy_MVC.Models.CategoryList
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script>
+    function MoveListBoxItem(fromListBox1, toListBox2) {
+        $("#" + fromListBox1 + " option:selected").remove().appendTo("#" + toListBox2);
+    }
+</script>
+@using (Html.BeginForm("Index", "Home"))
+{
+    <table width="100%" border="0">
+        <tr>
+            <td style="width:48%">ListBox1</td>
+            <td rowspan="2" style="width:4%">
+                <input type="button" value=">>" onclick="javascript: MoveListBoxItem('UnSelectedItem', 'SelectedCategoryName')" />
+                <br /><br />
+                <input type="button" value="<<" onclick="javascript: MoveListBoxItem('SelectedCategoryName', 'UnSelectedItem')" />
+            </td>
+            <td>ListBox2</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ListBox("UnSelectedItem", new SelectList(Model.ListBox1, "CatId", "CatName"), new { @style = "width:100%" })
+            </td>
+            <td>@Html.ListBoxFor(m => m.SelectedCategoryName, new SelectList(Model.ListBox2, "CatId", "CatName"), new { @style = "width:100%" })</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="text" value=@ViewBag.SelectedCategoryName>
+            </td>
+        </tr>
+    </table>
+}
